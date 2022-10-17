@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "DVTWeatherApp"
-include ':app'
+include(":app")
