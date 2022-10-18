@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ktlint)
     id(libs.plugins.androidx.safeargs.kotlin.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
 }
@@ -29,15 +30,19 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         viewBinding = true
         dataBinding = true
+    }
+    ktlint {
+        android.set(true)
+        ignoreFailures.set(false)
     }
 }
 
