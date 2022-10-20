@@ -74,6 +74,9 @@ dependencies {
     /*dependency injection*/
     implementation(libs.bundles.koin)
 
+    /*location services*/
+    implementation(libs.play.services.location)
+
     /*lifecycle*/
     kapt(libs.lifecycle.compiler)
     annotationProcessor(libs.lifecycle.compiler)
