@@ -1,3 +1,9 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_vertical_forecast_item">16dp</dimen>
+    <dimen name="padding_horizontal_forecast_item">16dp</dimen>
+    <dimen name="padding_default_text_view">8dp</dimen>
+    <dimen name="text_size_week_day">18sp</dimen>
+    <dimen name="text_size_current_temperature">64sp</dimen>
+    <dimen name="text_size_current_weather">28sp</dimen>
 </resources>

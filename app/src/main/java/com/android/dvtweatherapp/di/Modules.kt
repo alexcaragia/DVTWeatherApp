@@ -1,5 +1,6 @@
 package com.android.dvtweatherapp.di
 
+import com.android.dvtweatherapp.data.remote.WeatherApi
 import com.android.dvtweatherapp.common.dispatchers.AppDispatchers
 import com.android.dvtweatherapp.data.location.DefaultLocationManager
 import com.android.dvtweatherapp.data.repository.DefaultWeatherRepository
@@ -20,17 +21,19 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
 
 val appModule = module {
     single { LocationServices.getFusedLocationProviderClient(androidContext()) }
-    single {
+    single<WeatherApi> {
         Retrofit.Builder()
             .baseUrl(get<HttpUrl>())
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
+            .create()
     }
     viewModel {
         WeatherViewModel(get(named(AppDispatchers.IO)),get(),get())
@@ -45,6 +48,13 @@ val networkModule = module {
                     setLevel(HttpLoggingInterceptor.Level.BASIC)
                 }
             )
+            .build()
+    }
+    single {
+        Retrofit.Builder()
+            .baseUrl(get<HttpUrl>())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(get())
             .build()
     }
     single { BASE_URL.toHttpUrlOrNull() }
