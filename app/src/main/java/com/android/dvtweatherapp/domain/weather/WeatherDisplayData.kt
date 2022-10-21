@@ -1,3 +1,3 @@
 package com.android.dvtweatherapp.domain.weather
 
-class WeatherData()
+class WeatherDisplayData()

@@ -7,8 +7,9 @@ import com.android.dvtweatherapp.data.repository.DefaultWeatherRepository
 import com.android.dvtweatherapp.domain.location.LocationManager
 import com.android.dvtweatherapp.domain.repository.WeatherRepository
 import com.android.dvtweatherapp.presentation.weather.WeatherViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import kotlinx.coroutines.Dispatchers
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -24,9 +25,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+private const val LOCATION_REQUEST_INTERVAL = 10_000L
+private const val LOCATION_REQUEST_MIN_INTERVAL = 5_000L
 
 val appModule = module {
-    single { LocationServices.getFusedLocationProviderClient(androidContext()) }
     single<WeatherApi> {
         Retrofit.Builder()
             .baseUrl(get<HttpUrl>())
@@ -36,7 +38,7 @@ val appModule = module {
             .create()
     }
     viewModel {
-        WeatherViewModel(get(named(AppDispatchers.IO)),get(),get())
+        WeatherViewModel(get(), get())
     }
 }
 
@@ -45,16 +47,9 @@ val networkModule = module {
         OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
-                    setLevel(HttpLoggingInterceptor.Level.BASIC)
+                    setLevel(HttpLoggingInterceptor.Level.BODY)
                 }
             )
-            .build()
-    }
-    single {
-        Retrofit.Builder()
-            .baseUrl(get<HttpUrl>())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(get())
             .build()
     }
     single { BASE_URL.toHttpUrlOrNull() }
@@ -62,12 +57,23 @@ val networkModule = module {
 
 val repositoryModule = module {
     single<WeatherRepository> {
-        DefaultWeatherRepository()
+        DefaultWeatherRepository(get(named(AppDispatchers.IO)), get())
     }
 }
 
 val locationModule = module {
-    single<LocationManager> { DefaultLocationManager(get(), androidApplication()) }
+    single { LocationServices.getFusedLocationProviderClient(androidContext()) }
+    single {
+        LocationRequest.Builder(Priority.PRIORITY_LOW_POWER, LOCATION_REQUEST_INTERVAL)
+            .setMinUpdateIntervalMillis(LOCATION_REQUEST_MIN_INTERVAL)
+            .build()
+    }
+    single<LocationManager> {
+        DefaultLocationManager(
+            get(),
+            androidApplication()
+        )
+    }
 }
 
 val dispatchersModule = module {

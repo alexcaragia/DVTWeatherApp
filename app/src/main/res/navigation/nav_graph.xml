@@ -7,6 +7,5 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.android.dvtweatherapp.presentation.weather.WeatherFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second" />
+        tools:layout="@layout/fragment_weather" />
 </navigation>

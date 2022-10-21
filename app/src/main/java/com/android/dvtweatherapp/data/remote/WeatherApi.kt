@@ -1,9 +1,10 @@
 package com.android.dvtweatherapp.data.remote
 
 import com.android.dvtweatherapp.domain.util.Response
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Query
+
+private const val WEATHER_MEASUREMENT_UNITS = "metric"
 
 interface WeatherApi {
     @GET("weather")
@@ -11,14 +12,14 @@ interface WeatherApi {
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("appid") appId: String,
-        @Query("units") units: String
-    ): Flow<Response<WeatherDto>>
+        @Query("units") units: String = WEATHER_MEASUREMENT_UNITS
+    ): WeatherDto
 
     @GET("forecast")
     suspend fun getForecastWeatherData(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("appid") appId: String,
-        @Query("units") units: String
-    ): Flow<Response<WeatherDto>>
+        @Query("units") units: String = WEATHER_MEASUREMENT_UNITS
+    ): WeatherDto
 }
