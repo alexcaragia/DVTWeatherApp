@@ -16,4 +16,5 @@
     <string name="title_weekday_friday">Friday</string>
     <string name="title_weekday_saturday">Saturday</string>
     <string name="title_weekday_sunday">Sunday</string>
+    <string name="label_weather_unknown">Unknown</string>
 </resources>

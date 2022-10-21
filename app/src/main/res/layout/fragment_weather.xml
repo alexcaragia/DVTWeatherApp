@@ -9,10 +9,9 @@
 
     <ImageView
         android:id="@+id/iv_current_weather"
+        style="@style/CurrentWeatherImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,14 +19,11 @@
 
     <TextView
         android:id="@+id/tv_current_temperature"
+        style="@style/CurrentTemperatureText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_current_temperature"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_current_weather"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.35"
@@ -36,18 +32,11 @@
 
     <TextView
         android:id="@+id/tv_current_weather"
+        style="@style/CurrentWeatherNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:letterSpacing="0.2"
-        android:padding="@dimen/padding_default_text_view"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_current_weather"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/iv_current_weather"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_current_temperature"
         tools:text="Sunny" />

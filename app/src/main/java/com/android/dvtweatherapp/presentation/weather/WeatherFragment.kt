@@ -13,7 +13,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.android.dvtweatherapp.databinding.FragmentWeatherBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -38,15 +37,21 @@ class WeatherFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.location.observe(viewLifecycleOwner) {
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                viewModel.weatherState.observe(viewLifecycleOwner) {
+                    when(it){
+                        is WeatherState.Data -> {
+                            Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                        is WeatherState.Error -> {}
+                        WeatherState.Loading -> {}
+                    }
                 }
             }
         }
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
-            viewModel.loadLocation()
+            viewModel.loadWeather()
         }
         permissionLauncher.launch(
             arrayOf(

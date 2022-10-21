@@ -1,3 +1,5 @@
 package com.android.dvtweatherapp.domain.weather
 
-class WeatherDisplayInfo
+enum class ForecastWeatherType {
+
+}

@@ -2,6 +2,7 @@ package com.android.dvtweatherapp.data.repository
 
 import com.android.dvtweatherapp.BuildConfig
 import com.android.dvtweatherapp.common.ErrorMessages
+import com.android.dvtweatherapp.data.remote.ForecastDto
 import com.android.dvtweatherapp.data.remote.WeatherApi
 import com.android.dvtweatherapp.data.remote.WeatherDto
 import com.android.dvtweatherapp.domain.repository.WeatherRepository
@@ -30,7 +31,7 @@ class DefaultWeatherRepository(
 
     override suspend fun getForecastWeatherData(
         latitude: Double, longitude: Double
-    ): Response<WeatherDto> {
+    ): Response<ForecastDto> {
         return withContext(ioDispatcher) {
             try {
                 Response.Success(

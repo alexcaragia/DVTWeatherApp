@@ -1,3 +1,8 @@
 package com.android.dvtweatherapp.domain.weather
 
-class WeatherDisplayData()
+data class WeatherDisplayData(
+    val currentTemperature: String,
+    val maxTemperature: String,
+    val minTemperature: String,
+    val weatherType: WeatherType? = null
+)

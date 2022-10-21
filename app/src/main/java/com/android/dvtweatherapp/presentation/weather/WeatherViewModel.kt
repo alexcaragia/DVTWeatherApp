@@ -1,26 +1,29 @@
 package com.android.dvtweatherapp.presentation.weather
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.dvtweatherapp.domain.location.LocationManager
 import com.android.dvtweatherapp.domain.repository.WeatherRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(
     private val repository: WeatherRepository,
     private val locationManager: LocationManager
 ) : ViewModel() {
-    private val locationData: MutableLiveData<String> = MutableLiveData()
-    val location: LiveData<String> = locationData
+    private val weatherStateData: MediatorLiveData<WeatherState> = MediatorLiveData()
+    val weatherState: LiveData<WeatherState> = weatherStateData
 
-    fun loadLocation() {
+    fun loadWeather() {
         viewModelScope.launch {
             locationManager.getCurrentLocation()?.let {
-                locationData.postValue("Location is: ${it.latitude};${it.longitude}")
+                val currentWeatherResult =
+                    repository.getCurrentWeatherData(it.latitude, it.longitude)
+                val forecastWeatherResult =
+                    repository.getForecastWeatherData(it.latitude, it.longitude)
+                println(currentWeatherResult)
+                println(forecastWeatherResult)
             }
         }
     }
