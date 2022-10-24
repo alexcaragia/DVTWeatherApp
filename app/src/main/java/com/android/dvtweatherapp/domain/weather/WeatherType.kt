@@ -7,17 +7,37 @@ import com.android.dvtweatherapp.R
 import com.android.dvtweatherapp.common.capitalize
 
 enum class WeatherType(
-    @StringRes weatherNameRes: Int,
-    @ColorRes backgroundColorRes: Int,
-    @DrawableRes backgroundImageRes: Int
+    @StringRes val weatherNameRes: Int,
+    @ColorRes val backgroundColorRes: Int,
+    @ColorRes val statusBarColorRes: Int,
+    @DrawableRes val backgroundImageRes: Int,
+    @DrawableRes val iconImageRes: Int
 ) {
-    SUNNY(R.string.label_weather_sunny, R.color.green, R.drawable.ic_forest_sunny),
-    CLOUDY(R.string.label_weather_cloudy, R.color.gray, R.drawable.ic_forest_cloudy),
-    RAINY(R.string.label_weather_rainy, R.color.darkGray, R.drawable.ic_forest_rainy);
+    CLEAR(
+        R.string.label_weather_sunny,
+        R.color.green,
+        R.color.yellowStatusBar,
+        R.drawable.ic_forest_sunny,
+        R.drawable.ic_clear
+    ),
+    CLOUDS(
+        R.string.label_weather_cloudy,
+        R.color.gray,
+        R.color.gray,
+        R.drawable.ic_forest_cloudy,
+        R.drawable.ic_partly_sunny
+    ),
+    RAIN(
+        R.string.label_weather_rainy,
+        R.color.darkGray,
+        R.color.grayStatusBar,
+        R.drawable.ic_forest_rainy,
+        R.drawable.ic_rain
+    );
 
     companion object {
         fun createFrom(name: String): WeatherType {
-            return values().firstOrNull { it.name.capitalize() == name } ?: RAINY
+            return values().firstOrNull { it.name.lowercase().capitalize() == name } ?: RAIN
         }
     }
 }

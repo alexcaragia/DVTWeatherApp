@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingVertical="@dimen/padding_vertical_forecast_item"
-    android:paddingHorizontal="@dimen/padding_horizontal_forecast_item"
-    tools:background="@color/green">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_week_day"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center|start"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_week_day"
-        tools:text="Monday" />
+    <data>
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:src="@drawable/ic_clear" />
+        <variable
+            name="forecastData"
+            type="com.android.dvtweatherapp.domain.weather.ForecastDisplayData" />
+    </data>
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:text="25°"
-        android:textSize="@dimen/text_size_week_day"
-        android:textStyle="bold"
-        android:gravity="center|end"
-        android:textColor="@color/white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/padding_horizontal_forecast_item"
+        android:paddingVertical="@dimen/padding_vertical_forecast_item"
+        tools:background="@color/green">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_week_day"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|start"
+            android:text="@{forecastData.weekDay}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_week_day"
+            tools:text="Monday" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weatherSrc="@{forecastData.weatherType}"
+            tools:src="@drawable/ic_clear" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|end"
+            android:itemTemperatureText="@{forecastData.temperatureData.maxTemperature}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_week_day"
+            android:textStyle="bold"
+            tools:text="25°" />
+
+    </LinearLayout>
+</layout>

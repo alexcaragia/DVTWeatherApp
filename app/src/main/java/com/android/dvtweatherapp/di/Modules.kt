@@ -1,10 +1,10 @@
 package com.android.dvtweatherapp.di
 
-import com.android.dvtweatherapp.data.remote.WeatherApi
 import com.android.dvtweatherapp.common.dispatchers.AppDispatchers
 import com.android.dvtweatherapp.data.location.DefaultLocationManager
+import com.android.dvtweatherapp.data.remote.WeatherApi
 import com.android.dvtweatherapp.data.repository.DefaultWeatherRepository
-import com.android.dvtweatherapp.domain.location.LocationManager
+import com.android.dvtweatherapp.domain.location.LocationTracker
 import com.android.dvtweatherapp.domain.repository.WeatherRepository
 import com.android.dvtweatherapp.presentation.weather.WeatherViewModel
 import com.google.android.gms.location.LocationRequest
@@ -68,7 +68,7 @@ val locationModule = module {
             .setMinUpdateIntervalMillis(LOCATION_REQUEST_MIN_INTERVAL)
             .build()
     }
-    single<LocationManager> {
+    single<LocationTracker> {
         DefaultLocationManager(
             get(),
             androidApplication()

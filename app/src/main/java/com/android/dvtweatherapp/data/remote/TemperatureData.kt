@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class TemperatureData(
     @SerializedName("temp")
-    val currentTemperature: Double,
+    val currentTemperature: Float,
     @SerializedName("temp_min")
-    val minTemperature: Double,
+    val minTemperature: Float,
     @SerializedName("temp_max")
-    val maxTemperature: Double
+    val maxTemperature: Float
 )

@@ -5,22 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.dvtweatherapp.databinding.FragmentWeatherBinding
-import kotlinx.coroutines.launch
+import com.android.dvtweatherapp.presentation.weather.adapter.DefaultForecastAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherFragment : Fragment() {
 
     private var _binding: FragmentWeatherBinding? = null
-    private val viewModel by viewModel<WeatherViewModel>()
+    private val weatherViewModel by viewModel<WeatherViewModel>()
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+    private lateinit var forecastAdapter: DefaultForecastAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -28,30 +27,22 @@ class WeatherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.weatherState.observe(viewLifecycleOwner) {
-                    when(it){
-                        is WeatherState.Data -> {
-                            Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT).show()
-                        }
-                        is WeatherState.Error -> {}
-                        WeatherState.Loading -> {}
-                    }
-                }
-            }
-        }
+        binding.lifecycleOwner = viewLifecycleOwner
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
-            viewModel.loadWeather()
+            weatherViewModel.loadWeather()
+        }
+        weatherViewModel.weatherState.observe(viewLifecycleOwner) { weatherState ->
+            if (weatherState is WeatherState.CurrentWeatherData) {
+                setStatusBarColor(weatherState)
+            }
         }
         permissionLauncher.launch(
             arrayOf(
@@ -59,10 +50,33 @@ class WeatherFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
+        setupViews()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setStatusBarColor(weatherState: WeatherState.CurrentWeatherData) {
+        requireActivity().window.apply {
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            weatherState.data.weatherType?.backgroundColorRes.let {
+                statusBarColor =
+                    weatherState.data.weatherType?.statusBarColorRes?.let { colorRes ->
+                        resources.getColor(colorRes, null)
+                    }!!
+            }
+        }
+    }
+
+    private fun setupViews() {
+        forecastAdapter = DefaultForecastAdapter(layoutInflater)
+        binding.rvForecast.run {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = forecastAdapter
+        }
+        binding.viewModel = weatherViewModel
     }
 }

@@ -1,5 +1,6 @@
-import java.util.Properties
 import java.io.FileInputStream
+import java.util.Properties
+import kotlin.collections.*
 
 plugins {
     alias(libs.plugins.android.application)
@@ -51,6 +52,7 @@ android {
     ktlint {
         android.set(true)
         ignoreFailures.set(false)
+        disabledRules.set(listOf("final-newline", "no-wildcard-imports", "max-line-length"))
     }
 }
 

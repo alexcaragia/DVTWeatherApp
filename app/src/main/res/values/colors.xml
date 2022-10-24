@@ -6,6 +6,8 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="green">#47AB2F</color>
+    <color name="yellowStatusBar">#FFD5A4</color>
+    <color name="grayStatusBar">#6D6C6E</color>
     <color name="gray">#54717A</color>
     <color name="darkGray">#57575D</color>
     <color name="black">#FF000000</color>

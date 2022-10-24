@@ -1,7 +1,9 @@
 package com.android.dvtweatherapp.domain.weather
 
+import com.android.dvtweatherapp.data.remote.TemperatureData
+
 data class ForecastDisplayData(
-    val dayOfWeek: String,
-    val maxTemperature: String,
-    val weatherType: ForecastWeatherType
+    val weekDay: String,
+    val weatherType: WeatherType,
+    val temperatureData: TemperatureData
 )
