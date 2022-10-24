@@ -31,7 +31,7 @@ fun ForecastDto.toForecastDisplayDataList(): List<ForecastDisplayData> {
     return forecastDisplayDataMap.values.toList()
 }
 
-private fun Long.formatDate(): String {
+fun Long.formatDate(): String {
     return SimpleDateFormat(
         WEEK_DAY_DATE_FORMAT,
         Locale.getDefault()

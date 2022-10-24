@@ -54,6 +54,9 @@ android {
         ignoreFailures.set(false)
         disabledRules.set(listOf("final-newline", "no-wildcard-imports", "max-line-length"))
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -73,6 +76,7 @@ dependencies {
     testImplementation(libs.bundles.test.mockk)
     testImplementation(libs.arch.core.testing)
     testImplementation(libs.koin.testing)
+    testImplementation(libs.coroutines.test)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.test.ext.junit)
     androidTestImplementation(libs.bundles.test.mockk)

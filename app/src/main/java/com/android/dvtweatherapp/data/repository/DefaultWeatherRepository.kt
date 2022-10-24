@@ -37,10 +37,14 @@ class DefaultWeatherRepository(
         longitude: Double
     ): Response<List<ForecastDisplayData>?> {
         return withContext(ioDispatcher) {
-            Response.Success(
-                data = weatherApi.getForecastWeatherData(latitude, longitude, appId)
-                    .toForecastDisplayDataList()
-            )
+            try {
+                Response.Success(
+                    data = weatherApi.getForecastWeatherData(latitude, longitude, appId)
+                        .toForecastDisplayDataList()
+                )
+            } catch (exception: Exception) {
+                Response.Error(message = exception.message ?: ErrorMessages.UNKNOWN_ERROR.message)
+            }
         }
     }
 }
