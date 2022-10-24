@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.android.dvtweatherapp.presentation.weather.WeatherViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:weatherBackgroundColor="@{viewModel.weatherState}"
+        tools:background="@color/green"
+        tools:context=".presentation.weather.WeatherFragment">
+
+        <ImageView
+            android:id="@+id/iv_current_weather"
+            style="@style/CurrentWeatherImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weatherImage="@{viewModel.weatherState}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_forest_sunny" />
+
+        <LinearLayout
+            android:id="@+id/ll_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:fadeIn="@{viewModel.weatherState}"
+            android:background="@drawable/bg_header_separator"
+            android:paddingHorizontal="@dimen/padding_default_text_view"
+            app:layout_constraintBottom_toTopOf="@+id/rv_forecast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_current_weather"
+            tools:background="@color/green">
+
+            <TextView
+                android:id="@+id/tv_header_min_temperature"
+                style="@style/CurrentWeatherHeaderText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|start"
+                android:minTemperatureText="@{viewModel.weatherState}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="16°\nmin" />
+
+            <TextView
+                android:id="@+id/tv_header_current_temperature"
+                style="@style/CurrentWeatherHeaderText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:currentTemperatureText="@{viewModel.weatherState}"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_header_max_temperature"
+                app:layout_constraintStart_toStartOf="@id/tv_header_min_temperature"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="18°\nCurrent" />
+
+            <TextView
+                android:id="@+id/tv_header_max_temperature"
+                style="@style/CurrentWeatherHeaderText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:maxTemperatureText="@{viewModel.weatherState}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="18°\nCurrent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_current_temperature"
+            style="@style/CurrentTemperatureText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:temperatureText="@{viewModel.weatherState}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_current_weather"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="25°" />
+
+        <TextView
+            android:id="@+id/tv_current_weather"
+            style="@style/CurrentWeatherNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:weatherText="@{viewModel.weatherState}"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_current_weather"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_current_temperature"
+            tools:text="Sunny" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:forecastList="@{viewModel.weatherState}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_header"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_forecast">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/pb_current_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:isWeatherLoading="@{viewModel.weatherState}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_current_weather"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pb_forecast_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:isForecastLoading="@{viewModel.weatherState}"
+            app:layout_constraintBottom_toBottomOf="@id/rv_forecast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rv_forecast" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
