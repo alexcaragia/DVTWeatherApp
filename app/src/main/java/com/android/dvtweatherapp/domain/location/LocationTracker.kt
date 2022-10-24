@@ -2,6 +2,6 @@ package com.android.dvtweatherapp.domain.location
 
 import android.location.Location
 
-interface LocationManager {
+interface LocationTracker {
     suspend fun getCurrentLocation(): Location?
 }

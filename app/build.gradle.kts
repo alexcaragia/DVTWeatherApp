@@ -1,3 +1,7 @@
+import java.io.FileInputStream
+import java.util.Properties
+import kotlin.collections.*
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,6 +22,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localPropertiesFile = rootProject.file("local.properties")
+        val localProperties = Properties()
+        localProperties.load(FileInputStream(localPropertiesFile))
+        buildConfigField("String", "WEATHER_API_KEY", localProperties["WEATHER_API_KEY"] as String)
     }
 
     buildTypes {
@@ -43,6 +52,7 @@ android {
     ktlint {
         android.set(true)
         ignoreFailures.set(false)
+        disabledRules.set(listOf("final-newline", "no-wildcard-imports", "max-line-length"))
     }
 }
 
